@@ -1,0 +1,118 @@
+.navbar .navbar-search {
+	display: inline-flex;
+	align-items: center;
+}
+
+.search-box {
+	display: inline-block;
+	position: relative;
+	margin-left: 1.5rem;
+
+	input {
+		cursor: text;
+		width: 12rem;
+		height: 2.2rem;
+		color: var(--c-text);
+		display: inline-block;
+		border: 1px solid var(--c-border);
+		border-radius: 0.375rem;
+		font-size: 0.9rem;
+		padding: 0 0.5rem 0 2.2rem;
+		outline: none;
+		transition: all 0.2s ease;
+		background: var(--nav-links-hover-color) url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'><circle cx='11' cy='11' r='8'></circle><line x1='21' y1='21' x2='16.65' y2='16.65'></line></svg>") no-repeat 0.7rem center;
+		background-size: 0.95rem;
+
+		&::placeholder {
+			color: rgba(255, 255, 255, 0.6);
+		}
+
+		&:focus {
+			cursor: auto;
+			border-color: var(--c-brand);
+			background-color: var(--nav-links-hover-color);
+			width: 16rem;
+		}
+	}
+
+	.suggestions {
+		background: var(--c-bg);
+		width: 22rem;
+		position: absolute;
+		top: 2.3rem;
+		right: 0;
+		background-color: var(--c-bg-navbar, var(--c-bg));
+		border: 1px solid var(--c-border);
+		border-radius: 6px;
+		padding: 0.4rem;
+		list-style-type: none;
+		z-index: 999;
+		box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+
+		&.align-right {
+			right: 0;
+		}
+	}
+
+	.suggestion {
+		line-height: 1.4;
+		padding: 0.5rem 0.75rem;
+		border-radius: 4px;
+		cursor: pointer;
+
+		a {
+			display: block;
+			color: var(--c-text);
+			width: 100%;
+			padding: 0 !important;
+			background: transparent !important;
+			font-size: 0.9rem;
+			
+			.page-title {
+				font-weight: 600;
+				color: var(--c-text-accent);
+			}
+			
+			.header {
+				font-size: 0.8em;
+				opacity: 0.8;
+				margin-top: 0.2rem;
+			}
+		}
+
+		&.focused {
+			background-color: var(--c-brand) !important;
+			a {
+				color: #fff !important;
+				.page-title {
+					color: #fff !important;
+				}
+			}
+		}
+	}
+}
+
+@media (max-width: 719px) {
+	.search-box {
+		margin-left: 0.5rem;
+		input {
+			width: 2.2rem;
+			padding: 0;
+			cursor: pointer;
+			background-position: center;
+			color: transparent;
+
+			&::placeholder {
+				color: transparent;
+			}
+
+			&:focus {
+				width: 10rem;
+				padding: 0 0.5rem 0 2.2rem;
+				color: var(--c-text);
+				cursor: text;
+				background-position: 0.7rem center;
+			}
+		}
+	}
+}
