@@ -27,6 +27,15 @@ O Asaas disponibiliza dois ambientes para desenvolvimento e homologação de int
 
 As configurações de alíquotas de impostos, códigos de serviço municipais e federais (LC 116) podem ser visualizadas ou editadas via API.
 
+O Asaas permite a emissão de duas maneiras:
+1.  **Emissão via Prefeitura (Fluxo Padrão):** Realizada diretamente através do webservice homologado do seu município.
+2.  **Emissão via Portal Nacional:** Obrigatória para alguns perfis de empresas (MEI e outros enquadramentos específicos).
+
+### Ativação do Portal Nacional
+Caso sua empresa precise emitir notas pelo Portal Nacional, habilite a flag correspondente nas configurações fiscais do Asaas:
+*   No menu **Notas Fiscais > Configurações** no Painel, vá à aba **Informações Fiscais** e selecione "Sim" em **"Emito NFS-e pelo Portal Nacional"**.
+*   *Nota:* Ao alterar o portal emissor para o Portal Nacional, a listagem automática de serviços municipais via API pode ficar indisponível. Desse modo, o código do serviço deve ser informado manualmente através do parâmetro `municipalServiceCode` ao agendar uma nota.
+
 ### Endpoint de Configuração Fiscal
 `GET /v3/invoiceSettings`
 
@@ -49,7 +58,7 @@ Para maiores detalhes e informações de listagem de municípios suportados, con
 ```
 
 ::: warning ATENÇÃO
-Os campos `municipalServiceCode` e `cnae` devem estar exatamente de acordo com o cadastro da sua empresa na prefeitura do seu município para evitar rejeições na emissão.
+Os campos `municipalServiceCode` e `cnae` devem estar exatamente de acordo com o cadastro da sua empresa na prefeitura ou no Portal Nacional para evitar rejeições na emissão.
 :::
 
 ---

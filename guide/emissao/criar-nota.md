@@ -19,8 +19,30 @@ A emissão de nota fiscal avulsa (ou sob demanda) ocorre de forma independente d
 | `deductions` | Decimal | Não | Deduções permitidas por lei municipal. |
 | `effectiveDate` | String | Sim | Data de competência da nota (AAAA-MM-DD). |
 | `municipalServiceCode`| String | Não | Código do serviço municipal (sobrescreve o padrão). |
+| `useTaxSystemReformNT007`| Boolean | Não | Habilita antecipadamente a reforma de PIS/COFINS (NT-007). |
+| `taxes` | Object | Não | Parâmetros de tributos e retenções fiscais da NFS-e. |
 
-### Exemplo de Requisição (cURL)
+### Configuração de Impostos e Retenções (`taxes`)
+
+O objeto `taxes` permite configurar detalhadamente os tributos aplicados e retidos na nota fiscal:
+
+*   `iss` (Decimal): Percentual da alíquota do ISS.
+*   `retainIss` (Boolean): Define se o ISS será retido na fonte.
+*   `cofins` (Decimal): Percentual da alíquota de COFINS.
+*   `pis` (Decimal): Percentual da alíquota de PIS.
+*   `csll` (Decimal): Percentual da alíquota de CSLL.
+*   `inss` (Decimal): Percentual da alíquota de INSS.
+*   `ir` (Decimal): Percentual da alíquota de IR.
+
+#### Regras de Retenção de PIS/COFINS (NT-007)
+A partir do enquadramento da **Nota Técnica NT-007** (obrigatória a partir de 30/06/2026 para empresas do **Regime Normal**), novos campos tornaram-se obrigatórios ao emitir notas via Portal Nacional. Você deve preenchê-los dentro do objeto `taxes`:
+
+*   `pisCofinsRetentionType` (String): Código da retenção de PIS/COFINS.
+*   `pisCofinsTaxStatus` (String): Código da situação tributária.
+
+---
+
+### Exemplo de Requisição com Impostos (cURL)
 
 ```bash
 curl --request POST \
@@ -32,7 +54,16 @@ curl --request POST \
     "serviceDescription": "Desenvolvimento de software sob medida para plataforma web.",
     "value": 1500.00,
     "effectiveDate": "2026-07-13",
-    "municipalServiceCode": "1.05"
+    "municipalServiceCode": "1.05",
+    "useTaxSystemReformNT007": true,
+    "taxes": {
+      "iss": 2.00,
+      "retainIss": false,
+      "pis": 0.65,
+      "cofins": 3.00,
+      "pisCofinsRetentionType": "1",
+      "pisCofinsTaxStatus": "01"
+    }
   }'
 ```
 
@@ -47,6 +78,14 @@ curl --request POST \
   "value": 1500.00,
   "serviceDescription": "Desenvolvimento de software sob medida para plataforma web.",
   "effectiveDate": "2026-07-13",
+  "taxes": {
+    "iss": 2.00,
+    "retainIss": false,
+    "pis": 0.65,
+    "cofins": 3.00,
+    "pisCofinsRetentionType": "1",
+    "pisCofinsTaxStatus": "01"
+  },
   "xmlUrl": null,
   "pdfUrl": null
 }
