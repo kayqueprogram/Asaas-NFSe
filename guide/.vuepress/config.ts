@@ -27,10 +27,12 @@ const config = defineUserConfig<DefaultThemeOptions, ViteBundlerOptions>({
 	themeConfig: {
 		contributors: false,
 		sidebar,
-		repo: 'asaas/api-docs',
+		repo: 'kayqueprogram/Asaas-NFSe',
+		docsBranch: 'main',
 		docsDir: 'guide',
 		sidebarDepth: 3,
-		editLinks: false,
+		editLink: true,
+		editLinkText: 'Editar esta página',
 		lastUpdated: true,
 		navbar: [
 			{
