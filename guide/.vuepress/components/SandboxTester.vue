@@ -151,9 +151,11 @@ print(response.json())`;
       this.loading = true;
       this.testResult = null;
 
-      // Utilizando o endpoint /v3/payments que é universal e sempre ativo para teste de autenticação
-      const targetUrl = 'https://api-sandbox.asaas.com/v3/payments?limit=1';
-      const proxyUrl = `https://corsproxy.io/?${targetUrl}`;
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const endpoint = '/v3/payments?limit=1';
+      const proxyUrl = isLocal 
+        ? `https://corsproxy.io/?https://api-sandbox.asaas.com${endpoint}`
+        : `/api/proxy?endpoint=${encodeURIComponent(endpoint)}`;
 
       try {
         const response = await fetch(proxyUrl, {

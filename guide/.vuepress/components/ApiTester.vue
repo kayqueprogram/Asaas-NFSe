@@ -121,9 +121,10 @@ export default {
       this.loading = true;
       this.testResult = null;
 
-      // Base URL de Sandbox do Asaas
-      const targetUrl = `https://api-sandbox.asaas.com${this.endpoint}`;
-      const proxyUrl = `https://corsproxy.io/?${targetUrl}`;
+      const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+      const proxyUrl = isLocal 
+        ? `https://corsproxy.io/?https://api-sandbox.asaas.com${this.endpoint}`
+        : `/api/proxy?endpoint=${encodeURIComponent(this.endpoint)}`;
 
       const options = {
         method: this.method.toUpperCase(),
