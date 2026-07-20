@@ -21,3 +21,15 @@ Com base nas [Dúvidas Frequentes do Sandbox do Asaas](https://docs.asaas.com/do
 Utilize a caixa de ferramentas interativa abaixo para gerar amostras rápidas de código usando a sua chave de API Sandbox. Insira a sua chave para atualizar os blocos dinamicamente.
 
 <SandboxTester />
+
+---
+
+## 3. Consultar Identificadores de Clientes (Sandbox)
+
+Para realizar testes de emissão de notas ou cobranças nas outras páginas, você precisará do identificador de API do seu cliente (que inicia com `cus_`). Use a ferramenta abaixo para listar os clientes cadastrados no seu painel e copiar o ID:
+
+<ApiTester 
+  method="GET" 
+  endpoint="/v3/customers?limit=5" 
+  description="Listar Clientes Cadastrados" 
+/>
