@@ -98,7 +98,7 @@ export default {
     generatedCode() {
       if (this.activeTab === 'curl') {
         return `curl --request GET \\
-  --url https://sandbox.asaas.com/api/v3/invoiceSettings \\
+  --url https://api-sandbox.asaas.com/v3/invoiceSettings \\
   --header 'accept: application/json' \\
   --header 'access_token: ${this.displayKey}'`;
       }
@@ -113,7 +113,7 @@ const options = {
   }
 };
 
-fetch('https://sandbox.asaas.com/api/v3/invoiceSettings', options)
+fetch('https://api-sandbox.asaas.com/v3/invoiceSettings', options)
   .then(response => response.json())
   .then(data => console.log(data))
   .catch(err => console.error(err));`;
@@ -121,7 +121,7 @@ fetch('https://sandbox.asaas.com/api/v3/invoiceSettings', options)
       if (this.activeTab === 'python') {
         return `import requests
 
-url = "https://sandbox.asaas.com/api/v3/invoiceSettings"
+url = "https://api-sandbox.asaas.com/v3/invoiceSettings"
 
 headers = {
     "accept": "application/json",
@@ -152,7 +152,7 @@ print(response.json())`;
       this.testResult = null;
 
       // Utilizando proxy CORS gratuito e estável
-      const targetUrl = 'https://sandbox.asaas.com/api/v3/invoiceSettings';
+      const targetUrl = 'https://api-sandbox.asaas.com/v3/invoiceSettings';
       const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
 
       try {

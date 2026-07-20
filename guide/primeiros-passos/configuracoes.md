@@ -15,7 +15,7 @@ A ativação inicial do módulo de Notas Fiscais deve ser realizada diretamente 
 O Asaas disponibiliza dois ambientes para desenvolvimento e homologação de integrações. Cada ambiente possui suas próprias credenciais (`access_token`):
 
 *   **Sandbox (Homologação / Testes)**:
-    *   URL Base: `https://sandbox.asaas.com/api`
+    *   URL Base: `https://api-sandbox.asaas.com/v3`
     *   *Nota: Ideal para testar o fluxo de criação de notas sem gerar efeitos fiscais reais.*
 *   **Produção**:
     *   URL Base: `https://api.asaas.com`
