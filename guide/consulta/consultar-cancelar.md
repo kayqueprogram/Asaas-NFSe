@@ -20,8 +20,17 @@ Você pode buscar os detalhes de uma nota fiscal pelo ID retornado na criação.
   "invoiceNumber": "2026071300054",
   "pdfUrl": "https://api.asaas.com/v3/invoices/inv_987654321/pdf",
   "xmlUrl": "https://api.asaas.com/v3/invoices/inv_987654321/xml"
-}
 ```
+
+### Testar Listagem de Notas Fiscais (Sandbox)
+
+Use o testador interativo abaixo para listar as notas fiscais emitidas no seu ambiente de Sandbox:
+
+<ApiTester 
+  method="GET" 
+  endpoint="/v3/invoices?limit=5" 
+  description="Listar Notas Fiscais (Sandbox)" 
+/>
 
 ---
 

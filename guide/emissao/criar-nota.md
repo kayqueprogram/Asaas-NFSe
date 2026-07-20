@@ -91,6 +91,25 @@ curl --request POST \
 }
 ```
 
+---
+
+## 3. Testar Emissão de Nota Fiscal Avulsa (Sandbox)
+
+Utilize o testador interativo abaixo para enviar uma chamada real de criação de nota fiscal para o ambiente de testes do Asaas. Você pode alterar as informações do JSON abaixo (certifique-se de usar um ID de cliente válido criado no seu ambiente de Sandbox).
+
+<ApiTester 
+  method="POST" 
+  endpoint="/v3/invoices" 
+  description="Criar Nota Fiscal Avulsa" 
+  :defaultPayload="{
+    'customer': 'cus_123456789',
+    'serviceDescription': 'Desenvolvimento de software sob medida para plataforma web.',
+    'value': 150.00,
+    'effectiveDate': '2026-07-20',
+    'municipalServiceCode': '1.05'
+  }" 
+/>
+
 ::: tip STATUS INICIAL
 Toda nota fiscal avulsa recém-criada assume o status `PENDING` (ou `DRAFT` se configurada para rascunho), significando que ela entrou na fila de processamento assíncrono para comunicação com a prefeitura.
 :::

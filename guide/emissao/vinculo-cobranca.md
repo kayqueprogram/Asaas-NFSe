@@ -37,3 +37,26 @@ curl --request POST \
 ```
 
 Ao efetuar o pagamento da cobrança PIX criada acima, o Asaas criará e enviará automaticamente a nota de serviço para a prefeitura no mesmo instante.
+
+---
+
+## testar Criação de Cobrança com Nota Agendada (Sandbox)
+
+Utilize o testador interativo abaixo para enviar uma chamada real de criação de cobrança com agendamento de nota fiscal em Sandbox. Você pode customizar os valores do JSON abaixo:
+
+<ApiTester 
+  method="POST" 
+  endpoint="/v3/payments" 
+  description="Criar Cobrança com Vínculo de Nota" 
+  :defaultPayload="{
+    'customer': 'cus_123456789',
+    'billingType': 'PIX',
+    'value': 350.00,
+    'dueDate': '2026-07-20',
+    'description': 'Mensalidade do serviço de infraestrutura',
+    'invoice': {
+      'municipalServiceCode': '1.05',
+      'updatePaymentInvoiceConfig': 'ON_PAYMENT'
+    }
+  }" 
+/>
