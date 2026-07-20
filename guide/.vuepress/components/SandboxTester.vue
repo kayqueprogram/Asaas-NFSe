@@ -43,7 +43,7 @@
       <div :class="['status-badge', testResult.success ? 'success' : 'error']">
         Status: {{ testResult.status }} {{ testResult.success ? '(Sucesso)' : '(Erro)' }}
       </div>
-      <div class="response-title">Resposta da API (GET /v3/invoiceSettings):</div>
+      <div class="response-title">Resposta da API (GET /v3/payments):</div>
       <div class="code-container response-code">
         <pre><code>{{ testResult.response }}</code></pre>
       </div>
@@ -151,8 +151,8 @@ print(response.json())`;
       this.loading = true;
       this.testResult = null;
 
-      // Utilizando proxy CORS gratuito e estável (sem codificar o targetUrl para o corsproxy.io)
-      const targetUrl = 'https://api-sandbox.asaas.com/v3/invoiceSettings';
+      // Utilizando o endpoint /v3/payments que é universal e sempre ativo para teste de autenticação
+      const targetUrl = 'https://api-sandbox.asaas.com/v3/payments?limit=1';
       const proxyUrl = `https://corsproxy.io/?${targetUrl}`;
 
       try {
