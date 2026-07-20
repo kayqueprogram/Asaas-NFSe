@@ -4,7 +4,7 @@
       <div class="header-icon">⚙️</div>
       <div class="header-title">
         <h3>Testador de Integração Sandbox</h3>
-        <p>Gere e copie comandos rápidos para testar a comunicação com o Asaas</p>
+        <p>Gere códigos ou faça um teste de requisição real da sua chave API</p>
       </div>
     </div>
 
@@ -23,8 +23,30 @@
         </button>
       </div>
       <small class="help-text">
-        As chaves de Sandbox geralmente iniciam com <code>$aesaas</code>. Nunca compartilhe sua chave de produção!
+        As chaves de Sandbox geralmente iniciam com <code>$aesaas</code>.
       </small>
+    </div>
+
+    <div class="action-buttons">
+      <button 
+        @click="runTestRequest" 
+        :disabled="loading || !apiKey" 
+        class="test-request-btn"
+      >
+        <span v-if="loading">Enviando Requisição...</span>
+        <span v-else>🚀 Testar Requisição Real</span>
+      </button>
+    </div>
+
+    <!-- Request Status and Response Display -->
+    <div v-if="testResult" class="test-result-section">
+      <div :class="['status-badge', testResult.success ? 'success' : 'error']">
+        Status: {{ testResult.status }} {{ testResult.success ? '(Sucesso)' : '(Erro)' }}
+      </div>
+      <div class="response-title">Resposta da API (GET /v3/invoiceSettings):</div>
+      <div class="code-container response-code">
+        <pre><code>{{ testResult.response }}</code></pre>
+      </div>
     </div>
 
     <div class="tabs">
@@ -46,7 +68,7 @@
     </div>
 
     <div class="security-warning">
-      <strong>⚠️ Nota de Segurança:</strong> Requisições feitas diretamente do navegador para a API do Asaas serão bloqueadas por políticas de CORS (Cross-Origin Resource Sharing) para evitar que sua chave de API seja exposta publicamente. Sempre execute chamadas de API a partir do seu backend.
+      <strong>⚠️ Nota de Segurança:</strong> Para possibilitar testes diretamente do seu navegador nesta documentação, a requisição passa por um Proxy CORS seguro e temporário. <strong>Nunca insira sua chave de Produção aqui!</strong> Use apenas chaves de Sandbox.
     </div>
   </div>
 </template>
@@ -60,6 +82,8 @@ export default {
       showKey: false,
       activeTab: 'curl',
       copied: false,
+      loading: false,
+      testResult: null,
       tabs: [
         { id: 'curl', label: 'cURL' },
         { id: 'js', label: 'JavaScript (Node)' },
@@ -121,6 +145,42 @@ print(response.json())`;
       } catch (err) {
         console.error('Falha ao copiar código: ', err);
       }
+    },
+    async runTestRequest() {
+      if (!this.apiKey) return;
+      this.loading = true;
+      this.testResult = null;
+
+      // Utilizando proxy CORS gratuito e estável
+      const targetUrl = 'https://sandbox.asaas.com/api/v3/invoiceSettings';
+      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+
+      try {
+        const response = await fetch(proxyUrl, {
+          method: 'GET',
+          headers: {
+            'accept': 'application/json',
+            'access_token': this.apiKey.trim()
+          }
+        });
+
+        const status = response.status;
+        const data = await response.json().catch(() => null);
+
+        this.testResult = {
+          success: response.ok,
+          status: status,
+          response: data ? JSON.stringify(data, null, 2) : 'Sem corpo de resposta'
+        };
+      } catch (err) {
+        this.testResult = {
+          success: false,
+          status: 'Erro de Conexão',
+          response: JSON.stringify({ error: err.message, detail: 'Falha ao se comunicar com a API do Asaas através do proxy CORS.' }, null, 2)
+        };
+      } finally {
+        this.loading = false;
+      }
     }
   }
 };
@@ -161,7 +221,7 @@ print(response.json())`;
 }
 
 .input-group {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1.2rem;
 }
 
 .input-group label {
@@ -193,7 +253,7 @@ print(response.json())`;
 }
 
 .toggle-btn {
-  background-color: var(--c-brand, #5865f2);
+  background-color: #3b4252;
   border: none;
   border-radius: 4px;
   color: #fff;
@@ -201,11 +261,11 @@ print(response.json())`;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
-  transition: opacity 0.2s;
+  transition: background-color 0.2s;
 }
 
 .toggle-btn:hover {
-  opacity: 0.9;
+  background-color: #434c5e;
 }
 
 .help-text {
@@ -213,6 +273,72 @@ print(response.json())`;
   margin-top: 0.4rem;
   font-size: 0.75rem;
   opacity: 0.7;
+}
+
+.action-buttons {
+  margin-bottom: 1.5rem;
+}
+
+.test-request-btn {
+  background-color: var(--c-brand, #0038e5);
+  border: none;
+  border-radius: 4px;
+  color: #fff;
+  padding: 0.7rem 1.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: opacity 0.2s;
+  width: 100%;
+}
+
+.test-request-btn:hover:not(:disabled) {
+  opacity: 0.9;
+}
+
+.test-request-btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.test-result-section {
+  margin-bottom: 1.5rem;
+  border: 1px solid var(--c-border, #2f2f37);
+  border-radius: 6px;
+  padding: 1rem;
+  background-color: var(--c-bg, #0f0f11);
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.6rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+}
+
+.status-badge.success {
+  background-color: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+}
+
+.status-badge.error {
+  background-color: rgba(239, 68, 68, 0.2);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.3);
+}
+
+.response-title {
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 0.4rem;
+  opacity: 0.9;
+}
+
+.response-code {
+  background-color: #141416 !important;
 }
 
 .tabs {
@@ -237,8 +363,8 @@ print(response.json())`;
 
 .tab-btn.active {
   opacity: 1;
-  color: var(--c-brand, #5865f2);
-  border-bottom-color: var(--c-brand, #5865f2);
+  color: var(--c-brand, #0038e5);
+  border-bottom-color: var(--c-brand, #0038e5);
 }
 
 .code-container {
