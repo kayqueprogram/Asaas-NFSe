@@ -10,6 +10,7 @@ export default {
 			text: 'Primeiros Passos',
 			children: [
 				'/primeiros-passos/configuracoes.md',
+				'/primeiros-passos/sandbox.md',
 			],
 		},
 		{

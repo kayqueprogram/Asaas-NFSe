@@ -1,5 +1,6 @@
 import { defineClientAppEnhance } from '@vuepress/client';
+import SandboxTester from './components/SandboxTester.vue';
 
 export default defineClientAppEnhance(({ app }) => {
-	// Nenhuma customização necessária para a documentação do Asaas
+	app.component('SandboxTester', SandboxTester);
 });
