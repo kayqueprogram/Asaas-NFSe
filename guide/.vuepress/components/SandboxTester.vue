@@ -151,9 +151,9 @@ print(response.json())`;
       this.loading = true;
       this.testResult = null;
 
-      // Utilizando proxy CORS gratuito e estável
+      // Utilizando proxy CORS gratuito e estável (sem codificar o targetUrl para o corsproxy.io)
       const targetUrl = 'https://api-sandbox.asaas.com/v3/invoiceSettings';
-      const proxyUrl = `https://api.allorigins.win/raw?url=${encodeURIComponent(targetUrl)}`;
+      const proxyUrl = `https://corsproxy.io/?${targetUrl}`;
 
       try {
         const response = await fetch(proxyUrl, {
