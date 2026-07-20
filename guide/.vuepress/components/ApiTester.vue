@@ -123,7 +123,7 @@ export default {
 
       // Base URL de Sandbox do Asaas
       const targetUrl = `https://api-sandbox.asaas.com${this.endpoint}`;
-      const proxyUrl = `https://corsproxy.io/?${encodeURIComponent(targetUrl)}`;
+      const proxyUrl = `https://corsproxy.io/?${targetUrl}`;
 
       const options = {
         method: this.method.toUpperCase(),
